@@ -74,15 +74,34 @@ class ErlAutocompiler(ErlProjectLoader):
 	def log(self, text):
 		if type(text) == bytes:
 			text = text.decode('utf-8')
+		self.last_text = text
 		self.panel_buffer += text
 		sublime.set_timeout(self.update_panel, 0)
 
 	def compile(self):
 		retcode, data = self.compile_source(skip_deps=True)
 		if retcode != 0:
-			self.log(data)
-		else:
-			sublime.set_timeout(self.hide_panel, 0)
+			ignore_subdirs_warnings = GLOBALS.ERL.settings.get('ignore_subdirs_warnings', False)
+			ignore_warnings = GLOBALS.ERL.settings.get('ignore_warnings', False)
+			if type(data) == bytes:
+				data = data.decode('utf-8')
+
+			filtered_text = ""
+			for line in data.splitlines():
+				if ignore_warnings and "WARN" in line:
+					pass
+				elif ignore_subdirs_warnings and "Ignoring sub_dirs for" in line:
+					pass
+				elif "(compile)" in line:
+					pass
+				else:
+					filtered_text += line
+
+			if filtered_text:
+				self.log(data)
+				return
+
+		sublime.set_timeout(self.hide_panel, 0)
 
 # listener
 class ErlAutocompilerListener(sublime_plugin.EventListener):
