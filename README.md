@@ -1,4 +1,4 @@
-### Erl (Erlang Tests & Code Completion); Fork of SublimErl for ST3
+### Erl (Erlang Tests & Code Completion); Fork of fork of SublimErl for ST3 (:
 
 ---
 
