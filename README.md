@@ -50,7 +50,7 @@ Go to your Sublime Text 3 `Packages` directory:
 and clone the repository using the command below:
 
 ```bash
-$ git clone https://github.com/artemeff/Erl.git
+$ git clone https://github.com/23ua/Erl.git
 ```
 
 ---
